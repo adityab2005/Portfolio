@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, memo, useCallback } from "react";
 import Section from "../components/ui/Section";
-import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
 import { X, Github, ExternalLink, Activity, Server, Box, Zap, Maximize2 } from "lucide-react";
 import SystemDiagram from "../components/ui/SystemDiagram";
 import learnDevImg from "../public/learndev.jpeg";
@@ -49,13 +49,26 @@ const projects = [
   }
 ];
 
-const ProjectCard = ({ project, index, onClick }) => {
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
+const badgeColors = {
+    "Advanced": "bg-red-500/10 text-red-500 border-red-500/20",
+    "Intermediate": "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
+    "Beginner": "bg-green-500/10 text-green-500 border-green-500/20"
+};
+
+const ProjectCard = memo(({ project, index, onClick }) => {
+    const x = useMotionValue(200);
+    const y = useMotionValue(200);
     
-    // Increased perspective and rotation for better 3D effect
-    const rotateX = useTransform(y, [0, 400], [5, -5]); 
-    const rotateY = useTransform(x, [0, 400], [-5, 5]);
+    // Physics-based spring configuration for smoother mouse follow
+    const springConfig = { damping: 15, stiffness: 100 };
+    
+    // Transform raw mouse values to rotation degrees
+    const rotateXRaw = useTransform(y, [0, 400], [5, -5]); 
+    const rotateYRaw = useTransform(x, [0, 400], [-5, 5]);
+    
+    // Apply spring physics to the rotation
+    const rotateX = useSpring(rotateXRaw, springConfig);
+    const rotateY = useSpring(rotateYRaw, springConfig);
 
     function handleMouse(event) {
         const rect = event.currentTarget.getBoundingClientRect();
@@ -68,16 +81,14 @@ const ProjectCard = ({ project, index, onClick }) => {
         y.set(200);
     }
 
-    const badgeColors = {
-        "Advanced": "bg-red-500/10 text-red-500 border-red-500/20",
-        "Intermediate": "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
-        "Beginner": "bg-green-500/10 text-green-500 border-green-500/20"
-    };
+    const handleClick = useCallback(() => {
+        onClick(project, index);
+    }, [onClick, project, index]);
 
     return (
         <motion.div
             layoutId={`card-${index}`}
-            onClick={onClick}
+            onClick={handleClick}
             onMouseMove={handleMouse}
             onMouseLeave={handleMouseLeave}
             style={{ 
@@ -87,8 +98,13 @@ const ProjectCard = ({ project, index, onClick }) => {
             }}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            viewport={{ once: true }}
+            transition={{ 
+                type: "spring",
+                stiffness: 50,
+                damping: 20,
+                delay: index * 0.1 
+            }}
+            viewport={{ once: true, margin: "-50px" }}
             className="group relative h-96 cursor-pointer rounded-2xl bg-white/5 border border-white/10 hover:border-white/20 transition-all perspective-1000 overflow-hidden"
         >
              {/* Image Background */}
@@ -96,7 +112,8 @@ const ProjectCard = ({ project, index, onClick }) => {
                 {project.image && (
                     <img 
                         src={project.image} 
-                        alt={project.title} 
+                        alt={project.title}
+                        loading="lazy"
                         className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500 scale-105 group-hover:scale-110"
                     />
                 )}
@@ -131,10 +148,21 @@ const ProjectCard = ({ project, index, onClick }) => {
              </div>
         </motion.div>
     )
-}
+});
+
+ProjectCard.displayName = "ProjectCard";
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
+
+  const handleProjectClick = useCallback((project, index) => {
+      setSelectedProject({ ...project, index });
+  }, []);
+
+  const handleClose = useCallback((e) => {
+      e.stopPropagation();
+      setSelectedProject(null);
+  }, []);
 
   return (
     <Section id="projects" className="bg-background relative z-20">
@@ -142,7 +170,7 @@ const Projects = () => {
       
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 perspective-1000">
         {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} index={index} onClick={() => setSelectedProject({ ...project, index })} />
+            <ProjectCard key={index} project={project} index={index} onClick={handleProjectClick} />
         ))}
       </div>
 
@@ -153,17 +181,24 @@ const Projects = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
               onClick={() => setSelectedProject(null)}
               className="absolute inset-0 bg-black/90 backdrop-blur-md"
             />
             
             <motion.div
               layoutId={`card-${selectedProject.index}`}
+              transition={{ type: "spring", stiffness: 250, damping: 25 }}
               className="w-full max-w-4xl bg-[#111] rounded-2xl border border-white/10 overflow-hidden relative z-10 max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl"
             >
               <div className="h-64 relative group">
                 {selectedProject.image ? (
-                    <img src={selectedProject.image} alt={selectedProject.title} className="absolute inset-0 w-full h-full object-cover" />
+                    <img 
+                        src={selectedProject.image} 
+                        alt={selectedProject.title} 
+                        className="absolute inset-0 w-full h-full object-cover" 
+                        loading="lazy"
+                    />
                 ) : (
                     <div className={`absolute inset-0 bg-gradient-to-br ${selectedProject.color}`} />
                 )}
@@ -171,7 +206,7 @@ const Projects = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent" />
                 
                 <button
-                  onClick={(e) => { e.stopPropagation(); setSelectedProject(null); }}
+                  onClick={handleClose}
                   className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors z-20 border border-white/10"
                 >
                   <X size={24} />

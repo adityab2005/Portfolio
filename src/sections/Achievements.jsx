@@ -5,19 +5,19 @@ const achievements = [
   {
     title: "Diploma Rank 1",
     issuer: "State Board of Technical Education",
-    year: "2023",
+    year: "2024",
     color: "text-yellow-400"
   },
   {
     title: "IBM Certified Full Stack Developer",
     issuer: "IBM",
-    year: "2024",
+    year: "2025",
     color: "text-blue-400"
   },
   {
     title: "IBM Certified DevOps Engineer",
     issuer: "IBM",
-    year: "2024",
+    year: "2025",
     color: "text-blue-400"
   }
 ];
