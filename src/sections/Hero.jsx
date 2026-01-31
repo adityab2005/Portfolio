@@ -1,8 +1,49 @@
+
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
 import { ArrowRight, Download, Mail } from "lucide-react";
 
 const Hero = () => {
+  const [text, setText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const [delta, setDelta] = useState(150);
+
+  const toRotate = [ "Full Stack Developer", "AI Builder", "Problem Solver" ];
+  const period = 2000;
+
+  useEffect(() => {
+    let ticker = setInterval(() => {
+      tick();
+    }, delta);
+
+    return () => clearInterval(ticker);
+  }, [text, delta]);
+
+  const tick = () => {
+    let i = loopNum % toRotate.length;
+    let fullText = toRotate[i];
+    let updatedText = isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1);
+
+    setText(updatedText);
+
+    if (isDeleting) {
+      setDelta(prevDelta => prevDelta / 2);
+    }
+
+    if (!isDeleting && updatedText === fullText) {
+      setIsDeleting(true);
+      setDelta(period);
+    } else if (isDeleting && updatedText === "") {
+      setIsDeleting(false);
+      setLoopNum(loopNum + 1);
+      setDelta(150);
+    } else {
+        setDelta(100);
+    }
+  };
+
   return (
     <section
       id="hero"
@@ -31,9 +72,10 @@ const Hero = () => {
             Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">Aditya</span>
           </h1>
 
-          <h2 className="text-2xl md:text-3xl text-white/70 mb-6 font-light">
-            <span className="text-primary">Full Stack Developer</span> | AI Builder | Problem Solver
+          <h2 className="text-2xl md:text-3xl text-white/70 mb-6 font-light h-[40px]">
+             <span className="text-primary">{text}</span><span className="animate-pulse">|</span>
           </h2>
+
 
           <p className="text-lg text-white/50 mb-8 max-w-lg leading-relaxed">
             I architect and build premium digital experiences. Merging full-stack engineering with modern AI solutions to solve real-world problems.

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Section from "../components/ui/Section";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 import { X, Github, ExternalLink, Layers, Code, Zap } from "lucide-react";
 
 const projects = [
@@ -39,38 +39,74 @@ const projects = [
   }
 ];
 
-const Projects = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
+const ProjectCard = ({ project, index, onClick }) => {
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+    
+    // Subtle tilt values
+    const rotateX = useTransform(y, [0, 400], [2, -2]); 
+    const rotateY = useTransform(x, [0, 400], [-2, 2]);
 
-  return (
-    <Section id="projects" className="bg-background">
-      <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">Featured <span className="text-primary">Projects</span></h2>
-      
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project, index) => (
-          <motion.div
-            key={index}
+    function handleMouse(event) {
+        const rect = event.currentTarget.getBoundingClientRect();
+        x.set(event.clientX - rect.left);
+        y.set(event.clientY - rect.top);
+    }
+    
+    // Reset on mouse leave
+    function handleMouseLeave() {
+        x.set(200); 
+        y.set(200);
+    }
+
+    return (
+        <motion.div
             layoutId={`card-${index}`}
-            onClick={() => setSelectedProject({ ...project, index })}
+            onClick={onClick}
+            onMouseMove={handleMouse}
+            onMouseLeave={handleMouseLeave}
+            style={{ 
+                rotateX, 
+                rotateY, 
+                transformStyle: "preserve-3d" 
+            }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            viewport={{ once: true }}
             className="group relative h-96 cursor-pointer rounded-2xl overflow-hidden glass hover:bg-white/10 transition-colors border border-white/10"
-          >
+        >
              {/* Gradient Overlay */}
-             <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+             <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none`} />
              
-             <div className="absolute inset-0 p-8 flex flex-col justify-end">
+             <div className="absolute inset-0 p-8 flex flex-col justify-end transform-gpu translate-z-10">
                 <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <h3 className="text-3xl font-bold mb-2">{project.title}</h3>
-                    <p className="text-primary font-medium mb-4">{project.subtitle}</p>
+                    <h3 className="text-3xl font-bold mb-2 group-hover:text-primary transition-colors">{project.title}</h3>
+                    <p className="text-white/60 font-medium mb-4">{project.subtitle}</p>
                     <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
                       {project.tags.map(tag => (
-                        <span key={tag} className="text-xs px-3 py-1 bg-white/10 rounded-full">{tag}</span>
+                        <span key={tag} className="text-xs px-3 py-1 bg-white/10 rounded-full border border-white/5">{tag}</span>
                       ))}
                     </div>
                 </div>
              </div>
-          </motion.div>
+        </motion.div>
+    )
+}
+
+const Projects = () => {
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  return (
+    <Section id="projects" className="bg-background relative z-20">
+      <h2 className="text-4xl md:text-5xl font-bold mb-16 text-center">Featured <span className="text-primary">Projects</span></h2>
+      
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 perspective-1000">
+        {projects.map((project, index) => (
+            <ProjectCard key={index} project={project} index={index} onClick={() => setSelectedProject({ ...project, index })} />
         ))}
       </div>
+
 
       <AnimatePresence>
         {selectedProject && (
