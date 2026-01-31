@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Section from "../components/ui/Section";
 import { motion, AnimatePresence } from "framer-motion";
+import Spotlight from "../components/ui/Spotlight";
 
 const categories = {
+
   Programming: ["JavaScript", "Python", "Java", "C++", "TypeScript"],
   Frontend: ["React.js", "Next.js", "Tailwind CSS", "Framer Motion", "Redux", "HTML5/CSS3"],
   Backend: ["Node.js", "Express.js", "REST APIs", "GraphQL"],
@@ -53,12 +55,14 @@ const Skills = () => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.05 }}
-                  className="glass p-4 rounded-xl border border-white/5 hover:border-secondary/50 transition-colors flex items-center justify-center text-lg font-medium text-white/80 hover:text-secondary group hover:bg-white/5"
                 >
-                  {skill}
+                    <Spotlight className="h-full w-full p-6 flex items-center justify-center text-lg font-medium text-white/80 hover:text-secondary transition-colors cursor-default">
+                        {skill}
+                    </Spotlight>
                 </motion.div>
               ))}
             </motion.div>
+
           </AnimatePresence>
         </div>
       </div>

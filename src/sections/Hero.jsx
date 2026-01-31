@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
 import { ArrowRight, Download, Mail } from "lucide-react";
+import HackerText from "../components/ui/HackerText";
 
 const Hero = () => {
   const [text, setText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+
   const [loopNum, setLoopNum] = useState(0);
   const [delta, setDelta] = useState(150);
 
@@ -68,9 +70,15 @@ const Hero = () => {
             Available for Hire
           </motion.div>
           
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
-            Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">Aditya</span>
-          </h1>
+          <div className="inline-block">
+             <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight flex flex-col md:block">
+                <span>Hi, I'm </span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">
+                    <HackerText text="Aditya" />
+                </span>
+             </h1>
+          </div>
+
 
           <h2 className="text-2xl md:text-3xl text-white/70 mb-6 font-light h-[40px]">
              <span className="text-primary">{text}</span><span className="animate-pulse">|</span>

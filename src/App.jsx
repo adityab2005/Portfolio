@@ -12,6 +12,7 @@ import Terminal from "./components/Terminal";
 import LoadingScreen from "./components/LoadingScreen";
 import CustomCursor from "./components/CustomCursor";
 import Background from "./components/Background";
+import ScrollProgress from "./components/ScrollProgress";
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -22,6 +23,7 @@ function App() {
       
       <div className={`bg-background min-h-screen text-white relative ${!isLoaded ? 'overflow-hidden h-screen' : ''}`}>
         <CustomCursor />
+        <ScrollProgress />
         <Background />
         <Navbar />
         
@@ -41,6 +43,7 @@ function App() {
     </>
   );
 }
+
 
 
 export default App;

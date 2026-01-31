@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import { Link } from "react-scroll";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Github, Linkedin, Mail } from "lucide-react";
+import Magnetic from "./ui/Magnetic";
+import HackerText from "./ui/HackerText";
 
 const Navbar = () => {
+
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -34,35 +37,41 @@ const Navbar = () => {
           to="hero"
           smooth={true}
           duration={500}
-          className="text-2xl font-bold tracking-tighter cursor-pointer hover:text-primary transition-colors"
+          className="text-2xl font-bold tracking-tighter cursor-pointer hover:text-primary transition-colors flex items-center gap-1"
         >
-          Adi<span className="text-primary">.</span>
+          <HackerText text="Adi" />
+          <span className="text-primary">.</span>
         </Link>
+
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.to}
-              smooth={true}
-              duration={500}
-              spy={true}
-              activeClass="text-primary font-medium"
-              className="text-white/70 hover:text-white cursor-pointer transition-colors text-sm uppercase tracking-wider"
-            >
-              {link.name}
-            </Link>
+            <Magnetic key={link.name}>
+                <Link
+                to={link.to}
+                smooth={true}
+                duration={500}
+                spy={true}
+                activeClass="text-primary font-medium"
+                className="text-white/70 hover:text-white cursor-pointer transition-colors text-sm uppercase tracking-wider px-2 py-4" // added padding for better magnetic feel
+                >
+                {link.name}
+                </Link>
+            </Magnetic>
           ))}
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-white/70 hover:text-primary transition-colors"
-          >
-            <Github size={20} />
-          </a>
+          <Magnetic>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/70 hover:text-primary transition-colors block p-2"
+              >
+                <Github size={20} />
+              </a>
+          </Magnetic>
         </div>
+
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
