@@ -1,12 +1,15 @@
 import { useState, useRef, useEffect } from "react";
 import { X, Terminal as TerminalIcon, Maximize2, Minimize2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import confetti from "canvas-confetti";
+
+const formatOutput = (text) => text; // Helper to allow potentially more complex output future-proofing
 
 const commands = {
   about: "Full Stack Developer | Rank 1 Diploma Holder | AI Enthusiast",
   skills: "React, Node.js, Python, TensorFlow, Docker, AWS",
   projects: "1. LearnDev (AI Platform)\n2. Taskify Pro (Task Manager)\n3. Campus Connect (ERP)",
-  help: "Available commands: about, skills, projects, clear, help",
+  help: "Available commands: about, skills, projects, contact, clear, help, hire, sudo hire",
   contact: "Email: aditya@example.com",
 };
 
@@ -32,6 +35,17 @@ const Terminal = () => {
 
       if (cmd === "clear") {
         setHistory([]);
+      } else if (cmd === "hire") {
+         newHistory.push({ type: "output", content: "Interesting choice! Let's talk business. Email me at aditya@example.com" });
+         setHistory(newHistory);
+      } else if (cmd === "sudo hire") {
+         newHistory.push({ type: "success", content: "ACCESS GRANTED. INITIATING CELEBRATION PROTOCOL..." });
+         setHistory(newHistory);
+         confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+         });
       } else if (commands[cmd]) {
         newHistory.push({ type: "output", content: commands[cmd] });
         setHistory(newHistory);
@@ -90,7 +104,7 @@ const Terminal = () => {
             >
               <div className="space-y-2">
                 {history.map((line, i) => (
-                  <div key={i} className={`${line.type === "error" ? "text-red-400" : line.type === "input" ? "text-white" : "text-green-400"}`}>
+                  <div key={i} className={`${line.type === "error" ? "text-red-400" : line.type === "input" ? "text-white" : line.type === "success" ? "text-yellow-400 font-bold" : "text-green-400"}`}>
                     {line.type === "input" && <span className="text-blue-400 mr-2">➜ ~</span>}
                     <span className="whitespace-pre-wrap">{line.content}</span>
                   </div>

@@ -38,15 +38,15 @@ const CustomCursor = () => {
       x: mousePosition.x - 16,
       y: mousePosition.y - 16,
       backgroundColor: "transparent",
-      border: "1px solid rgba(59, 130, 246, 0.5)",
+      border: "1px solid rgb(var(--primary))",
     },
     text: {
       height: 80,
       width: 80,
       x: mousePosition.x - 40,
       y: mousePosition.y - 40,
-      backgroundColor: "rgba(59, 130, 246, 0.1)",
-      border: "1px solid rgba(59, 130, 246, 0)",
+      backgroundColor: "rgba(var(--primary), 0.1)",
+      border: "1px solid rgba(var(--primary), 0)",
       mixBlendMode: "screen"
     }
   };

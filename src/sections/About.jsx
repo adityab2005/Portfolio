@@ -27,7 +27,7 @@ const About = () => {
         <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 text-lg text-white/70 leading-relaxed">
                 <p>
-                    I am a forward-thinking <span className="text-white font-medium">B.Tech IT Student</span> with a strong foundation in software engineering. My journey started with a <span className="text-white font-medium">Diploma in Computer Engineering where I secured Rank 1</span>, proving my dedication to the craft.
+                    I am a forward-thinking <span className="text-white font-medium">B.Tech IT Student</span> with a strong foundation in software engineering. My journey started with a <span className="text-white font-medium">Diploma in Information Technology where I secured Rank 1</span>, proving my dedication to the craft.
                 </p>
                 <p>
                     Passionate about bridging the gap between complex backend logic and intuitive frontend design. I specialize in building scalable applications using the <span className="text-primary">MERN stack, Next.js, and Cloud technologies</span>.
@@ -49,6 +49,23 @@ const About = () => {
                         </div>
                     </div>
                 ))}
+
+                {/* Hobbies Section */}
+                <div className="glass p-6 rounded-xl relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                         <User size={64} />
+                    </div>
+                    <h3 className="text-lg font-bold text-white mb-2">Beyond the Code</h3>
+                    <p className="text-white/60 text-sm mb-3">When I'm not engineering systems, I'm analyzing moves on the 64 squares or training in the ring.</p>
+                    <div className="flex gap-3">
+                        <span className="text-xs font-medium px-3 py-1 bg-white/5 rounded-full border border-white/10 flex items-center gap-1.5 hover:bg-white/10 transition-colors">
+                            ♟️ Chess Enthusiast
+                        </span>
+                        <span className="text-xs font-medium px-3 py-1 bg-white/5 rounded-full border border-white/10 flex items-center gap-1.5 hover:bg-white/10 transition-colors">
+                            🥊 Amateur Boxer
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </Section>

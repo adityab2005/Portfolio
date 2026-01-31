@@ -12,7 +12,7 @@ const Hero = () => {
   const [loopNum, setLoopNum] = useState(0);
   const [delta, setDelta] = useState(150);
 
-  const toRotate = [ "Full Stack Developer", "AI Builder", "Problem Solver" ];
+  const toRotate = [ "Full Stack Developer","DevOps Engineer", "Gen AI", "Problem Solver" ];
   const period = 2000;
 
   useEffect(() => {
@@ -153,7 +153,7 @@ const Hero = () => {
                             <span className="text-blue-400">[</span>
                             <span className="text-green-300">'React'</span>,
                             <span className="text-green-300">'Node'</span>,
-                            <span className="text-green-300">'AI'</span>
+                            <span className="text-green-300">'Gen AI'</span>
                             <span className="text-blue-400">]</span>
                         </div>
                         <div className="text-blue-400">{"}"}</div>

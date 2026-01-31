@@ -8,7 +8,7 @@ const Contact = () => {
         <div>
             <h2 className="text-4xl md:text-5xl font-bold mb-6">Let's <span className="text-primary">Connect</span></h2>
             <p className="text-xl text-white/60 mb-8 leading-relaxed">
-                Have a project in mind or want to discuss the latest in AI and Web Dev? I'm always open to new opportunities and interesting conversations.
+                Have a project in mind or want to discuss the latest in Gen AI and Web Dev? I'm always open to new opportunities and interesting conversations.
             </p>
             
             <div className="space-y-4">
@@ -18,15 +18,15 @@ const Contact = () => {
                     </div>
                     <div>
                         <p className="text-sm text-white/50">Email Me</p>
-                        <p className="text-white font-medium">aditya@example.com</p>
+                        <p className="text-white font-medium">aditya.b.bhandare1@gmail.com</p>
                     </div>
                 </a>
                 
                 <div className="grid grid-cols-2 gap-4">
-                    <a href="#" className="p-4 glass rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-3 text-white/80 hover:text-white">
+                    <a href="https://github.com/adityab2005" className="p-4 glass rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-3 text-white/80 hover:text-white">
                         <Github size={20} /> GitHub
                     </a>
-                    <a href="#" className="p-4 glass rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-3 text-white/80 hover:text-white">
+                    <a href="https://www.linkedin.com/in/aditya-bhandare-0633082ab/" className="p-4 glass rounded-xl hover:bg-white/10 transition-colors flex items-center justify-center gap-3 text-white/80 hover:text-white">
                         <Linkedin size={20} /> LinkedIn
                     </a>
                 </div>
