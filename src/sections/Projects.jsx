@@ -5,6 +5,7 @@ import { X, Github, ExternalLink, Activity, Server, Box, Zap, Maximize2 } from "
 import SystemDiagram from "../components/ui/SystemDiagram";
 import learnDevImg from "../public/learndev.jpeg";
 import taskifyImg from "../public/taskify.jpeg";
+import campusImg from "../public/campusconnect.jpeg";
 
 const projects = [
   {
@@ -37,15 +38,15 @@ const projects = [
   {
     title: "Campus Connect",
     subtitle: "College Management System",
-    tags: ["MERN Stack", "Redux", "AWS"],
+    tags: ["PHP Stack", "Bootstrap", "MySQL", "Vercel"],
     description: "Comprehensive ERP solution for digitalizing campus operations, from attendance to grade management. Role-based access for 5 user types.",
-    architecture: "Monolithic MERN architecture deployed on AWS EC2 with auto-scaling groups. S3 is used for document storage and CloudFront for CDN.",
+    architecture: "Monolithic PHP architecture deployed on vercel with auto-scaling groups.",
     challenges: "Designing a robust Role-Based Access Control (RBAC) middleware and optimizing database queries for complex reporting dashboards.",
     complexity: "Intermediate",
     github: "#",
     live: "#",
     color: "from-green-400 to-emerald-600",
-    image: null
+    image: campusImg
   }
 ];
 
