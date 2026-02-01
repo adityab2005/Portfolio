@@ -12,7 +12,11 @@ import {
   Layers, 
   Braces, 
   FileType, 
-  Box 
+  Box,
+  Cloud,
+  Container,
+  GitBranch,
+  Workflow
 } from "lucide-react";
 
 const skillCategories = [
@@ -21,13 +25,14 @@ const skillCategories = [
     description: "Building responsive and interactive user interfaces",
     icon: Code2,
     color: "text-blue-400",
+    barColor: "#60A5FA", // Blue-400
     skills: [
-      { name: "React.js", level: 90, icon: Globe, color: "#61DAFB" },
-      { name: "Next.js", level: 85, icon: Layers, color: "#000000" }, // Next.js is black/white
-      { name: "JavaScript", level: 88, icon: VariableIcon, color: "#F7DF1E" }, // Custom placeholder or Lucide
-      { name: "HTML5", level: 95, icon: FileType, color: "#E34F26" },
-      { name: "CSS3", level: 92, icon: Layout, color: "#1572B6" },
-      { name: "Tailwind CSS", level: 85, icon: Box, color: "#38B2AC" }
+      { name: "React.js", level: 90, icon: Globe },
+      { name: "Next.js", level: 85, icon: Layers },
+      { name: "JavaScript", level: 88, icon: Braces },
+      { name: "HTML5", level: 95, icon: FileType },
+      { name: "CSS3", level: 92, icon: Layout },
+      { name: "Tailwind CSS", level: 85, icon: Box }
     ]
   },
   {
@@ -35,13 +40,14 @@ const skillCategories = [
     description: "Server-side development and database management",
     icon: Server,
     color: "text-emerald-400",
+    barColor: "#34D399", // Emerald-400
     skills: [
-      { name: "Node.js", level: 85, icon: Terminal, color: "#339933" },
-      { name: "Python", level: 80, icon: FileType, color: "#3776AB" },
-      { name: "MongoDB", level: 82, icon: Database, color: "#47A248" },
-      { name: "MySQL", level: 78, icon: Database, color: "#4479A1" },
-      { name: "Firebase", level: 88, icon: Box, color: "#FFCA28" },
-      { name: "REST APIs", level: 85, icon: Globe, color: "#009688" }
+      { name: "Node.js", level: 85, icon: Terminal },
+      { name: "Python", level: 80, icon: FileType },
+      { name: "MongoDB", level: 82, icon: Database },
+      { name: "MySQL", level: 78, icon: Database },
+      { name: "Firebase", level: 88, icon: Box },
+      { name: "REST APIs", level: 85, icon: Globe }
     ]
   },
   {
@@ -49,19 +55,44 @@ const skillCategories = [
     description: "Machine learning and data analysis",
     icon: LineChart,
     color: "text-purple-400",
+    barColor: "#A78BFA", // Purple-400
     skills: [
-      { name: "Python", level: 80, icon: FileType, color: "#3776AB" },
-      { name: "TensorFlow", level: 75, icon: Cpu, color: "#FF6F00" },
-      { name: "Jupyter", level: 85, icon: Terminal, color: "#F37626" },
-      { name: "NumPy", level: 82, icon: Braces, color: "#013243" },
-      { name: "Matplotlib", level: 78, icon: LineChart, color: "#3776AB" }, // Reusing LineChart
-      { name: "R", level: 70, icon: FileType, color: "#276DC3" }
+      { name: "Python", level: 80, icon: FileType },
+      { name: "TensorFlow", level: 75, icon: Cpu },
+      { name: "Jupyter", level: 85, icon: Terminal },
+      { name: "NumPy", level: 82, icon: Braces },
+      { name: "Matplotlib", level: 78, icon: LineChart }, 
+      { name: "R", level: 70, icon: FileType }
+    ]
+  },
+  {
+    title: "Databases",
+    description: "Scalable data storage and management solutions",
+    icon: Database,
+    color: "text-cyan-400",
+    barColor: "#22D3EE", // Cyan-400
+    skills: [
+      { name: "MongoDB", level: 82, icon: Database },
+      { name: "PostgreSQL", level: 80, icon: Database },
+      { name: "MySQL", level: 78, icon: Database },
+      { name: "Redis", level: 75, icon: Layers }
+    ]
+  },
+  {
+    title: "DevOps & Cloud",
+    description: "Infrastructure automation and deployment pipelines",
+    icon: Cloud,
+    color: "text-pink-400",
+    barColor: "#F472B6", // Pink-400
+    skills: [
+      { name: "AWS", level: 80, icon: Cloud },
+      { name: "Docker", level: 85, icon: Container },
+      { name: "Kubernetes", level: 75, icon: Box },
+      { name: "Git", level: 90, icon: GitBranch },
+      { name: "CI/CD", level: 82, icon: Workflow }
     ]
   }
 ];
-
-// Helper component for generic JS icon if needed, or just use FileCode
-const VariableIcon = Braces; 
 
 const Skills = () => {
   return (
@@ -102,7 +133,7 @@ const Skills = () => {
                   <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
                     <motion.div 
                       className="h-full rounded-full relative overflow-hidden"
-                      style={{ backgroundColor: skill.color }} // Use brand color or mapped color
+                      style={{ backgroundColor: category.barColor }} 
                       initial={{ width: 0 }}
                       whileInView={{ width: `${skill.level}%` }}
                       transition={{ duration: 1, delay: 0.5 + (i * 0.1) }}
